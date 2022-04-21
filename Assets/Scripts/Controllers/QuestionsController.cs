@@ -31,6 +31,17 @@ public class QuestionsController
 
     public void ShowVideo()
     {
-        Debug.Log("Video");
+        if(LeftAnswerCounter > RightAnswerCounter)
+        {
+            Debug.Log("left Video");
+        }
+        else if(RightAnswerCounter > LeftAnswerCounter)
+        {
+            Debug.Log("right Video");
+        }
+        else
+        {
+            Debug.Log("equal Video");
+        }
     }
 }

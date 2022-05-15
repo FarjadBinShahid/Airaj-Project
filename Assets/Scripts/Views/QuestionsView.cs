@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VideoHelper;
+using UnityEngine.Video;
+using System;
 
 public class QuestionsView : MonoBehaviour
 {
@@ -24,27 +27,42 @@ public class QuestionsView : MonoBehaviour
     [SerializeField]
     private TextAsset QuestionsData;
 
+    [Header("Video Player")]
+    [SerializeField]
+    private VideoController videoController;
+    [SerializeField]
+    VideoClip leftVideo, rightVideo, equalVideo;
+
     private int counter;
     private List<Questions> questions;
     private QuestionsController questionsController;
+
+    public static Action OnVideoEnded;
+
     public QuestionsController QuestionsController { get => questionsController; set => questionsController = value; }
     public List<Questions> Questions { get => questions; set => questions = value; }
+    public VideoController VideoController { get => videoController; set => videoController = value; }
 
     private void Awake()
     {
-        QuestionsController = new QuestionsController(QuestionsData);
+        QuestionsController = new QuestionsController(QuestionsData, videoController, leftVideo,rightVideo,equalVideo);        
     }
 
     private void OnEnable()
     {
-        counter = -1;
-        Questions = QuestionsController.Questions;
+        ResetScreen();
         AddListeners();
         NextQuestion();
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void AddListeners()
     {
+        //videoController.VideoPlayer.loopPointReached += ShowReplayScreen;
         btn_LeftAnswer.onClick.AddListener(LeftAnswerSelected);
         btn_RightAnswer.onClick.AddListener(RightAnswerSelected);
     }
@@ -55,6 +73,14 @@ public class QuestionsView : MonoBehaviour
         btn_LeftAnswer.onClick.RemoveAllListeners();
     }
 
+    private void ResetScreen()
+    {
+        counter = -1;
+        Questions = QuestionsController.Questions;
+        QuestionsController.LeftAnswerCounter = 0;
+        QuestionsController.RightAnswerCounter = 0;
+    }
+
     private void OnDisable()
     {
         RemoveListeners();
@@ -63,14 +89,12 @@ public class QuestionsView : MonoBehaviour
     private void RightAnswerSelected()
     {
         QuestionsController.RightAnswerCounter++;
-        Debug.Log("Right Answer Selected "+QuestionsController.RightAnswerCounter);
         NextQuestion();
     }
 
     private void LeftAnswerSelected()
     {
         QuestionsController.LeftAnswerCounter++;
-        Debug.Log("Left Answer Selected " + QuestionsController.LeftAnswerCounter);
         NextQuestion();
     }
 
@@ -80,27 +104,28 @@ public class QuestionsView : MonoBehaviour
         if(counter >= Questions.Count)
         {
             QuestionsController.ShowVideo();
+            gameObject.SetActive(false);
             return;
         }
-        Debug.Log("Question Changed "+counter);
+       // Debug.Log("Question Changed "+counter);
         QuestionText.text = Questions[counter].Question;
         LeftAnswerText.text = Questions[counter].LeftAnswer;
         RightAnswerText.text = Questions[counter].RightAnswer;
 
-
     }
 
-    
+    private void ShowReplayScreen(VideoPlayer source)
+    {
+        gameObject.SetActive(false);
+    }
 
-
-
-    private void GenerateJson()
+    /*private void GenerateJson()
     {
         Questions q = new Questions("question", "left Answer", "Right Answer");
         List<Questions> qs = new List<Questions>() { q, q, q };
         string json = JsonConvert.SerializeObject(qs, Formatting.Indented);
         File.WriteAllText( Application.dataPath+"/Resources/Data/QuestionsData.json",json);
-    }
+    }*/
 
     
 }

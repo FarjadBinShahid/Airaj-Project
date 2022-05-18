@@ -22,6 +22,8 @@ public class QuestionsView : MonoBehaviour
     private TMP_Text LeftAnswerText;
     [SerializeField]
     private TMP_Text RightAnswerText;
+    [SerializeField]
+    private GameObject videoCanvas;
 
     [Header("Data Files")]
     [SerializeField]
@@ -30,8 +32,6 @@ public class QuestionsView : MonoBehaviour
     [Header("Video Player")]
     [SerializeField]
     private VideoController videoController;
-    [SerializeField]
-    VideoClip leftVideo, rightVideo, equalVideo;
 
     private int counter;
     private List<Questions> questions;
@@ -45,7 +45,7 @@ public class QuestionsView : MonoBehaviour
 
     private void Awake()
     {
-        QuestionsController = new QuestionsController(QuestionsData, videoController, leftVideo,rightVideo,equalVideo);        
+        QuestionsController = new QuestionsController(QuestionsData, videoController, videoCanvas);        
     }
 
     private void OnEnable()
@@ -62,7 +62,6 @@ public class QuestionsView : MonoBehaviour
 
     private void AddListeners()
     {
-        //videoController.VideoPlayer.loopPointReached += ShowReplayScreen;
         btn_LeftAnswer.onClick.AddListener(LeftAnswerSelected);
         btn_RightAnswer.onClick.AddListener(RightAnswerSelected);
     }
@@ -107,7 +106,6 @@ public class QuestionsView : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-       // Debug.Log("Question Changed "+counter);
         QuestionText.text = Questions[counter].Question;
         LeftAnswerText.text = Questions[counter].LeftAnswer;
         RightAnswerText.text = Questions[counter].RightAnswer;

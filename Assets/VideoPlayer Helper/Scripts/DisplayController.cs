@@ -25,8 +25,10 @@ namespace Unity.VideoHelper
         /// <returns></returns>
         public static IDisplayController ForDisplay(int display)
         {
+
             if (helper[display] == null)
                 helper[display] = new DisplayControllerInternal(display);
+
             return helper[display];
         }
     }
@@ -36,6 +38,7 @@ namespace Unity.VideoHelper
         internal DisplayControllerInternal(int display)
         {
             targetDisplay = display;
+            Setup();
         }
 
         #region Fields

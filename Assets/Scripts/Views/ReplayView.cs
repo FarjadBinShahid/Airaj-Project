@@ -12,6 +12,8 @@ public class ReplayView : MonoBehaviour
     private Button btn_ReplayVideo;
     [SerializeField]
     private Button btn_SurveyAgain;
+    [SerializeField]
+    private GameObject videoCanvas;
 
 
     [Header("Video Player")]
@@ -46,7 +48,7 @@ public class ReplayView : MonoBehaviour
 
     private void ReplayVideo ()
     {
-        videoController.gameObject.SetActive(true);
+        videoCanvas.SetActive(true);
         videoController.VideoPlayer.Play();
         gameObject.SetActive(false);
     }

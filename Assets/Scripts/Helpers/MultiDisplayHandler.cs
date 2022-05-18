@@ -10,8 +10,10 @@ public class MultiDisplayHandler : MonoBehaviour
 
     private void Awake()
     {
+
         for(int i = 1; i < Display.displays.Length; i++)
         {
+            Debug.Log(i);
             Display.displays[i].Activate();
             videoPresenter.TargetDisplay = 1;
         }

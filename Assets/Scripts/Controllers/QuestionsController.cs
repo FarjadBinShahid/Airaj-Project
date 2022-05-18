@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Unity.VideoHelper;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class QuestionsController
 {
@@ -11,47 +12,63 @@ public class QuestionsController
     private TextAsset QuestionsData;
     private int rightAnswerCounter, leftAnswerCounter;
     private VideoController VideoController;
-    private VideoClip LeftVideo, RightVideo, EqualVideo;
+    //string url;
+    GameObject videoCanvas;
 
-    public List<Questions> Questions { get => questions; set => questions = value; }
+    private int percent;
+
+
+    public List<Questions> Questions 
+    { 
+        get => questions;
+        set
+        {
+            questions = value;
+            double val = ((double)GameConstants.Percent / 100) * questions.Count;
+            percent = (int) val;
+        }
+    }
     public int RightAnswerCounter { get => rightAnswerCounter; set => rightAnswerCounter = value; }
     public int LeftAnswerCounter { get => leftAnswerCounter; set => leftAnswerCounter = value; }
 
-    public QuestionsController(TextAsset questionsData, VideoController videoController, VideoClip leftVideo, VideoClip rightVideo, VideoClip equalVideo)
+    public QuestionsController(TextAsset questionsData, VideoController videoController, GameObject videoCanvas)
     {
         QuestionsData = questionsData;
         VideoController = videoController;
-        LeftVideo = leftVideo;
-        RightVideo = rightVideo;
-        EqualVideo = equalVideo;
+        this.videoCanvas = videoCanvas;
         InitController();   
     }
 
     private void InitController()
     {
-        GetJsonData();  
+        GetJsonData();
     }
 
     private void GetJsonData()
     {
         Questions = JsonConvert.DeserializeObject<List<Questions>>(QuestionsData.ToString());
-        //Debug.Log(Questions.Count);
     }
 
     public void ShowVideo()
     {
-        VideoController.gameObject.SetActive(true);
-        if (LeftAnswerCounter > RightAnswerCounter)
+
+        string url;
+        videoCanvas.SetActive(true);
+
+        //check which video to play
+        if (LeftAnswerCounter > percent)
         {
-            VideoController.PrepareForClip(LeftVideo);
+            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.LeftVideoName);
         }
-        else if(RightAnswerCounter > LeftAnswerCounter)
+        else if(RightAnswerCounter > percent)
         {
-            VideoController.PrepareForClip(RightVideo);
+            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.RightVideoName);
         }
         else
         {
-            VideoController.PrepareForClip(EqualVideo);
+            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.EqualVideoName);
         }
+        VideoController.PrepareForUrl(url);
+
     }
 }

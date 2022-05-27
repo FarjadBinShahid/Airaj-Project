@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Unity.VideoHelper;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using System;
 
 public class QuestionsController
 {
@@ -16,6 +17,8 @@ public class QuestionsController
     GameObject videoCanvas;
 
     private int percent;
+
+    public static Action<string> OnPlayVideo;
 
 
     public List<Questions> Questions 
@@ -68,7 +71,10 @@ public class QuestionsController
         {
             url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.EqualVideoName);
         }
-        VideoController.PrepareForUrl(url);
+
+        OnPlayVideo?.Invoke(url);
+
+        //VideoController.PrepareForUrl(url);
 
     }
 }

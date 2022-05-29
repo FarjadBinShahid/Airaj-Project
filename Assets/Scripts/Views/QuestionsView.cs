@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Unity.VideoHelper;
 using UnityEngine.Video;
 using System;
+using System.Linq;
 
 public class QuestionsView : MonoBehaviour
 {
@@ -23,29 +24,30 @@ public class QuestionsView : MonoBehaviour
     [SerializeField]
     private TMP_Text RightAnswerText;
     [SerializeField]
-    private GameObject videoCanvas;
-
-    [Header("Data Files")]
+    private TMP_Text HintHeadingText;
     [SerializeField]
-    private TextAsset QuestionsData;
-
-    [Header("Video Player")]
+    private TMP_Text HintTextText;
     [SerializeField]
-    private VideoController videoController;
+    private GameObject Hint;
+    [SerializeField]
+    private Image QuestionNumberImage;
+    [SerializeField]
+    private GameObject ProcessingView;
 
     private int counter;
     private List<Questions> questions;
+    private Dictionary<string, Sprite> questionSprites = new Dictionary<string, Sprite>();
     private QuestionsController questionsController;
-
-    public static Action OnVideoEnded;
 
     public QuestionsController QuestionsController { get => questionsController; set => questionsController = value; }
     public List<Questions> Questions { get => questions; set => questions = value; }
-    public VideoController VideoController { get => videoController; set => videoController = value; }
 
     private void Awake()
     {
-        QuestionsController = new QuestionsController(QuestionsData, videoController, videoCanvas);        
+        questionSprites = Resources.LoadAll(GameConstants.UIAssetFolder + GameConstants.QuestionsAssetFolder, typeof(Sprite)).Cast<Sprite>().ToDictionary(x => x.name, y => y);
+              
+        QuestionsController = GameManager.Instance.QuestionController;
+        
     }
 
     private void OnEnable()
@@ -57,7 +59,7 @@ public class QuestionsView : MonoBehaviour
 
     private void Start()
     {
-        
+        //GenerateJson();
     }
 
     private void AddListeners()
@@ -102,28 +104,46 @@ public class QuestionsView : MonoBehaviour
         counter++;
         if(counter >= Questions.Count)
         {
-            QuestionsController.ShowVideo();
+            ProcessingView.SetActive(true);
+            //QuestionsController.ShowVideo();
             gameObject.SetActive(false);
             return;
         }
+        QuestionNumberImage.sprite = questionSprites[(counter+1).ToString()];
         QuestionText.text = Questions[counter].Question;
+        //QuestionText.text = KeywordColorChanger(Questions[counter].Question, "question");
         LeftAnswerText.text = Questions[counter].LeftAnswer;
         RightAnswerText.text = Questions[counter].RightAnswer;
 
+        if (Questions[counter].Hint != null)
+        {
+            Hint.SetActive(true);
+            HintHeadingText.text = Questions[counter].Hint.Heading;
+            HintTextText.text = Questions[counter].Hint.Text;
+        }
+        else
+        {
+            Hint.SetActive(false);
+        }
+
     }
+
+    
 
     private void ShowReplayScreen(VideoPlayer source)
     {
         gameObject.SetActive(false);
     }
 
-    /*private void GenerateJson()
+
+    // used to generate dummy json from model
+    private void GenerateJson()
     {
-        Questions q = new Questions("question", "left Answer", "Right Answer");
+        Questions q = new Questions("question", "left Answer", "Right Answer",new List<string> {"asd", "sdasd" } ,new Hint("Heading", "Text"));
         List<Questions> qs = new List<Questions>() { q, q, q };
         string json = JsonConvert.SerializeObject(qs, Formatting.Indented);
-        File.WriteAllText( Application.dataPath+"/Resources/Data/QuestionsData.json",json);
-    }*/
+        File.WriteAllText( Application.dataPath+"/Resources/Data/QuestionsData1.json",json);
+    }
 
     
 }

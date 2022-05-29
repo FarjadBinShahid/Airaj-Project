@@ -5,27 +5,27 @@ using UnityEngine;
 
 public class ProcessingView : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject videoCanvas;
+    [SerializeField]
     private VideoController VideoController;
+
 
     private void OnEnable()
     {
-        QuestionsController.OnPlayVideo += OnPlayVideo;
-    }
-
-    private void OnPlayVideo(string url)
-    {
-        StartCoroutine(PlayVideo(url));
+        StartCoroutine(PlayVideo(GameManager.Instance.QuestionController.Url));
     }
 
     private IEnumerator PlayVideo(string url)
     {
         yield return new WaitForSeconds(2);
+        VideoController.gameObject.SetActive(true);
+        Debug.Log(url);
         VideoController.PrepareForUrl(url);
 
     }
 
     private void OnDisable()
     {
-        QuestionsController.OnPlayVideo -= OnPlayVideo;
     }
 }

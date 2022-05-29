@@ -8,6 +8,8 @@ public class GameConstants
     #region Paths
 
     public const string VideoAssetFolder = "Videos/";
+    public const string UIAssetFolder = "UI/";
+    public const string QuestionsAssetFolder = "Questions/";
     public const string LeftVideoName = "Left Video.mp4";
     public const string RightVideoName = "Right Video.mp4";
     public const string EqualVideoName = "Equal Video.mp4";
@@ -20,5 +22,7 @@ public class GameConstants
 
     public const int VideoSceneIndex = 1;
     public const int Percent = 60;
+    public readonly Color KeywordColor = new Color(0.7137255f,1f, 0.08235294f,1f);
+    public const string KeywordColorCode = "B6FF15";
 
 }

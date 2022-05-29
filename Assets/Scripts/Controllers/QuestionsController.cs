@@ -13,12 +13,11 @@ public class QuestionsController
     private TextAsset QuestionsData;
     private int rightAnswerCounter, leftAnswerCounter;
     private VideoController VideoController;
-    //string url;
-    GameObject videoCanvas;
+    string url;
 
     private int percent;
 
-    public static Action<string> OnPlayVideo;
+   // public static Action<string> OnPlayVideo;
 
 
     public List<Questions> Questions 
@@ -33,48 +32,63 @@ public class QuestionsController
     }
     public int RightAnswerCounter { get => rightAnswerCounter; set => rightAnswerCounter = value; }
     public int LeftAnswerCounter { get => leftAnswerCounter; set => leftAnswerCounter = value; }
+    public string Url 
+    {
+        get
+        {
+            if (LeftAnswerCounter > percent)
+            {
+                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.LeftVideoName);
+            }
+            else if (RightAnswerCounter > percent)
+            {
+                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.RightVideoName);
+            }
+            else
+            {
+                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.EqualVideoName);
+            }
+            Debug.Log(url);
+            return url;
+        }
+        set => url = value; }
 
-    public QuestionsController(TextAsset questionsData, VideoController videoController, GameObject videoCanvas)
+    public QuestionsController()
+    {
+        GameManager.OnQuestionControllerInit += InitController;
+    }
+
+    /*public QuestionsController(TextAsset questionsData, VideoController videoController, GameObject videoCanvas)
     {
         QuestionsData = questionsData;
         VideoController = videoController;
         this.videoCanvas = videoCanvas;
         InitController();   
-    }
+    }*/
 
     private void InitController()
     {
-        GetJsonData();
+        ChangeKeywordColor();
     }
 
-    private void GetJsonData()
+    private void ChangeKeywordColor()
     {
-        Questions = JsonConvert.DeserializeObject<List<Questions>>(QuestionsData.ToString());
+        
+        for(int i = 0; i < Questions.Count; i++)
+        {
+            Questions[i].Question = KeywordColorChanger(Questions[i].Question, Questions[i].Keyword);
+        }
+
     }
 
-    public void ShowVideo()
+    private string KeywordColorChanger(string question, List<string> words)
     {
-
-        string url;
-        videoCanvas.SetActive(true);
-
-        //check which video to play
-        if (LeftAnswerCounter > percent)
+        for(int i = 0; i < words.Count; i++)
         {
-            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.LeftVideoName);
+            question = question.Replace(words[i], "<color=#" + GameConstants.KeywordColorCode + ">" + words[i] + "</color>");
         }
-        else if(RightAnswerCounter > percent)
-        {
-            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.RightVideoName);
-        }
-        else
-        {
-            url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.EqualVideoName);
-        }
-
-        OnPlayVideo?.Invoke(url);
-
-        //VideoController.PrepareForUrl(url);
-
+        return question;  
     }
+
+    
 }

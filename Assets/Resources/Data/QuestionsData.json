@@ -1,52 +1,109 @@
 [
   {
-    "Question": "question 1",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "Should Capital Punishment be legal?",
+    "LeftAnswer": "It's necessary",
+    "RightAnswer": "It's useless",
+    "Keyword": [
+      "Capital Punishment"
+    ],
+    "Hint": {
+        "Heading": "Capital Punishment:",
+        "Text": "The legally authorized killing of someone as punishment for crime."
+    }
   },
   {
-    "Question": "question 2",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "Should Abortion be allowed?",
+    "LeftAnswer": "Pro-Choice",
+    "RightAnswer": "Pro-Life",
+    "Keyword": [
+    ],
+    "Hint": {
+        "Heading": "Pro 1:",
+        "Text": "The crime of killing a human beiing without malice or planning."
+    }
   },
   {
-    "Question": "question 3",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "A train is speeding down its track towards 5 unsuspecting workers, you can save them by pulling a lever next to you and diverging the train, however the diverging track has 1 worker sleeping on it, would you pull the lever?",
+    "LeftAnswer": "Pull the lever",
+    "RightAnswer": "Don't pull it",
+    "Keyword": [
+      "5 unsuspecting workers",
+      "the diverging track has 1 worker"
+    ],
+    "Hint": null
   },
   {
-    "Question": "question 4",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "Should Manslaughter be given the same punishment as murder?",
+    "LeftAnswer": "Same outcome, so Yes. ",
+    "RightAnswer": "It's not the same, so No.",
+    "Keyword": [
+      "Manslaughter"
+    ],
+    "Hint": {
+        "Heading": "Manslaughter",
+        "Text": "The crime of killing human being without malice or planning."
+    }
   },
   {
-    "Question": "question 5",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "You are falsely accused of a crime, but the evidence is pointing in your direction, would you lie even about facts that are true in order to save yourself?",
+    "LeftAnswer": "I still can't lie in court",
+    "RightAnswer": "Obviously I'd save myself",
+    "Keyword": [
+      "the evidence is pointing in your direction",
+      "facts that are true"
+    ],
+    "Hint": null
   },
   {
-    "Question": "question 6",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "Is it justified to kill in order to defend someone else?",
+    "LeftAnswer": "It's like murder",
+    "RightAnswer": "It's just like self-defence",
+    "Keyword": [
+      "defend someone else"
+    ],
+    "Hint": {
+        "Heading": "Self-Defence",
+        "Text": "Thhe act of defending ones life property through forceful means, legally permissible in manu cases."
+    }
   },
   {
-    "Question": "question 7",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "You're a judge, working the trial of an innocent man, the prosecutors have kidnapped your child and are demanding you to deem the innocent man guilty in exchange for your child's release. What would you do?",
+    "LeftAnswer": "Save my child",
+    "RightAnswer": "I can't convict an innocent man",
+    "Keyword": [
+      "trial of an innocent man",
+      "deem the innocent man guilty",
+      "for your child's release"
+    ],
+    "Hint": null
   },
   {
-    "Question": "question 8",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "You witness a man steal a lot of money from a bank but you discover that it was stolen to save an orphanage from bankruptcy. Do you report the man to the police or stay silent?",
+    "LeftAnswer": "Report, It's still a crime",
+    "RightAnswer": "Don't report, it's for a good cause",
+    "Keyword": [
+      "steal a lot of money from a bank",
+      "bankruptcy"
+    ],
+    "Hint": null
   },
   {
-    "Question": "question 9",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "You're involved in a car crash with another vehicle which ends up killing a pedestrian. The person in the other car comes out shocked and exclaiming that it was their fault, but you're certain it was yours. Do you admit your fault or let the other person take the blame?",
+    "LeftAnswer": "Let them take the blame",
+    "RightAnswer": "Don't let them take the blame",
+    "Keyword": [
+      "killing a pedestrian",
+      "exclaiming that it was their fault",
+      "you're certain it was yours"
+    ],
+    "Hint": null
   },
   {
-    "Question": "question 10",
-    "LeftAnswer": "left Answer",
-    "RightAnswer": "Right Answer"
+    "Question": "A company designs 2 automated cars, in the case of an accident, one is designed to protect the driver and passengers of the car, while the other is designed to save the ones outside. Which car do you choose to drive?",
+    "LeftAnswer": "Car that protects itself",
+    "RightAnswer": "Car that protects others",
+    "Keyword": [
+    ],
+    "Hint": null
   }
 ]

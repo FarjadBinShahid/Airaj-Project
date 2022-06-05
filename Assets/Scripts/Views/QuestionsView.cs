@@ -34,6 +34,14 @@ public class QuestionsView : MonoBehaviour
     [SerializeField]
     private GameObject ProcessingView;
 
+
+    [Header("Text Writer")]
+    [SerializeField]
+    private TextWriter questionTextWriter;
+    [SerializeField]
+    private TextWriter leftAnswerTextWriter;
+    [SerializeField]
+    private TextWriter rightAnswerTextWriter;
     private int counter;
     private List<Questions> questions;
     private Dictionary<string, Sprite> questionSprites = new Dictionary<string, Sprite>();
@@ -64,6 +72,9 @@ public class QuestionsView : MonoBehaviour
 
     private void AddListeners()
     {
+        questionTextWriter.OnTextComplete += delegate { TextCompleted(leftAnswerTextWriter, Questions[counter].LeftAnswer);};
+        leftAnswerTextWriter.OnTextComplete += delegate { TextCompleted(rightAnswerTextWriter, Questions[counter].RightAnswer); };
+        rightAnswerTextWriter.OnTextComplete += delegate { btn_RightAnswer.interactable = true; btn_LeftAnswer.interactable = true; };
         btn_LeftAnswer.onClick.AddListener(LeftAnswerSelected);
         btn_RightAnswer.onClick.AddListener(RightAnswerSelected);
     }
@@ -101,6 +112,10 @@ public class QuestionsView : MonoBehaviour
 
     private void NextQuestion()
     {
+        LeftAnswerText.text = String.Empty;
+        RightAnswerText.text = String.Empty;
+        btn_LeftAnswer.interactable = false;
+        btn_RightAnswer.interactable = false;
         counter++;
         if(counter >= Questions.Count)
         {
@@ -110,10 +125,7 @@ public class QuestionsView : MonoBehaviour
             return;
         }
         QuestionNumberImage.sprite = questionSprites[(counter+1).ToString()];
-        QuestionText.text = Questions[counter].Question;
-        //QuestionText.text = KeywordColorChanger(Questions[counter].Question, "question");
-        LeftAnswerText.text = Questions[counter].LeftAnswer;
-        RightAnswerText.text = Questions[counter].RightAnswer;
+        questionTextWriter.AddWriter(Questions[counter].Question);
 
         if (Questions[counter].Hint != null)
         {
@@ -126,6 +138,11 @@ public class QuestionsView : MonoBehaviour
             Hint.SetActive(false);
         }
 
+    }
+
+    private void TextCompleted(TextWriter textWriter, string text)
+    {
+        textWriter.AddWriter(text);
     }
 
     

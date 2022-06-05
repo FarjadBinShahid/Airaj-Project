@@ -13,6 +13,12 @@ public class TextWriter : MonoBehaviour
     [SerializeField]
     private float timePerCharacter;
 
+    [Header("Audio Source")]
+    [SerializeField]
+    private bool enableAudio = false;
+    [SerializeField]
+    private AudioSource audioSource;
+
     private string textToWrite;
     private int characterIndex;
     private float timer;
@@ -28,20 +34,25 @@ public class TextWriter : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {
-                timer += timePerCharacter;  
+                timer += timePerCharacter;
                 characterIndex++;
                 try
                 {
                     uiText.text = textToWrite.Substring(0, characterIndex);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Debug.Log(uiText.gameObject.name);
                 }
-                    if (characterIndex >= textToWrite.Length)
+                if (characterIndex >= textToWrite.Length)
                 {
                     isTextDone = true;
+                    if (enableAudio)
+                    {
+                        audioSource.Pause();
+                    }
                     OnTextComplete?.Invoke();
+
                     return;
                 }
 
@@ -69,6 +80,11 @@ public class TextWriter : MonoBehaviour
         this.textToWrite = textToWrite;
         characterIndex = 0;
         isTextDone = false;
+        if (enableAudio)
+        {
+
+            audioSource.Play();
+        }
     }
 
 }

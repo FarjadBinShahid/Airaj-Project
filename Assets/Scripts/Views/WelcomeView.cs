@@ -9,13 +9,27 @@ public class WelcomeView : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField]
     private Button btn_Continue;
-
     [SerializeField]
     private GameObject QuestionsView;
+
+    [Header("Animation")]
+    [SerializeField]
+    private Animator animator;
+
+
 
     private void OnEnable()
     {
         AddListeners();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.Play("Logo");
+        }
+
     }
 
     private void AddListeners()

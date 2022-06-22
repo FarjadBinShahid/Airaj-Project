@@ -20,6 +20,8 @@ public class QuestionsView : MonoBehaviour
     [SerializeField]
     private Button btn_RightAnswer;
     [SerializeField]
+    private Button btn_ResetQuestions;
+    [SerializeField]
     private TMP_Text LeftAnswerText;
     [SerializeField]
     private TMP_Text RightAnswerText;
@@ -62,7 +64,6 @@ public class QuestionsView : MonoBehaviour
     {
         ResetScreen();
         AddListeners();
-        NextQuestion();
     }
 
     private void Start()
@@ -72,17 +73,30 @@ public class QuestionsView : MonoBehaviour
 
     private void AddListeners()
     {
-        questionTextWriter.OnTextComplete += delegate { TextCompleted(leftAnswerTextWriter, Questions[counter].LeftAnswer);};
-        leftAnswerTextWriter.OnTextComplete += delegate { TextCompleted(rightAnswerTextWriter, Questions[counter].RightAnswer); };
-        rightAnswerTextWriter.OnTextComplete += delegate { btn_RightAnswer.interactable = true; btn_LeftAnswer.interactable = true; };
+        questionTextWriter.OnTextComplete += delegate 
+        { 
+            TextCompleted(leftAnswerTextWriter, Questions[counter].LeftAnswer);
+        };
+        leftAnswerTextWriter.OnTextComplete += delegate 
+        { 
+            TextCompleted(rightAnswerTextWriter, Questions[counter].RightAnswer); 
+        };
+        rightAnswerTextWriter.OnTextComplete += delegate 
+        { 
+            btn_RightAnswer.interactable = true; 
+            btn_LeftAnswer.interactable = true;
+            btn_ResetQuestions.interactable = true; 
+        };
         btn_LeftAnswer.onClick.AddListener(LeftAnswerSelected);
         btn_RightAnswer.onClick.AddListener(RightAnswerSelected);
+        btn_ResetQuestions.onClick.AddListener(ResetScreen);
     }
 
     private void RemoveListeners()
     {
         btn_RightAnswer.onClick.RemoveAllListeners();
         btn_LeftAnswer.onClick.RemoveAllListeners();
+        btn_ResetQuestions.onClick.RemoveAllListeners();
     }
 
     private void ResetScreen()
@@ -91,6 +105,7 @@ public class QuestionsView : MonoBehaviour
         Questions = QuestionsController.Questions;
         QuestionsController.LeftAnswerCounter = 0;
         QuestionsController.RightAnswerCounter = 0;
+        NextQuestion();
     }
 
     private void OnDisable()
@@ -116,6 +131,7 @@ public class QuestionsView : MonoBehaviour
         RightAnswerText.text = String.Empty;
         btn_LeftAnswer.interactable = false;
         btn_RightAnswer.interactable = false;
+        btn_ResetQuestions.interactable = false;
         counter++;
         if(counter >= Questions.Count)
         {

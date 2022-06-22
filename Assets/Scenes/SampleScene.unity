@@ -1874,6 +1874,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoCanvas: {fileID: 652136710}
   VideoController: {fileID: 1942683593}
+  printCopies: 1
+  printerName: 
 --- !u!1 &791728886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2599,7 +2601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiText: {fileID: 960236208}
-  timePerCharacter: 0.1
+  timePerCharacter: 0.075
   enableAudio: 1
   audioSource: {fileID: 960236211}
 --- !u!82 &960236211
@@ -3837,7 +3839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiText: {fileID: 1420714686}
-  timePerCharacter: 0.05
+  timePerCharacter: 0.04
   enableAudio: 1
   audioSource: {fileID: 1420714689}
 --- !u!82 &1420714689
@@ -4420,7 +4422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiText: {fileID: 1552766515}
-  timePerCharacter: 0.1
+  timePerCharacter: 0.075
   enableAudio: 1
   audioSource: {fileID: 1552766518}
 --- !u!82 &1552766518

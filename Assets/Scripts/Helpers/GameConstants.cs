@@ -7,12 +7,16 @@ public class GameConstants
 {
     #region Paths
 
+    public const string ImageAssetFolder = "Images/";
     public const string VideoAssetFolder = "Videos/";
     public const string UIAssetFolder = "UI/";
     public const string QuestionsAssetFolder = "Questions/";
     public const string LeftVideoName = "Left Video.mp4";
     public const string RightVideoName = "Right Video.mp4";
     public const string EqualVideoName = "Equal Video.mp4";
+    public const string LeftImageName = "Left Image";
+    public const string RightImageName = "Right Image";
+    public const string EqualImageName = "Equal Image";
 
     #endregion
 

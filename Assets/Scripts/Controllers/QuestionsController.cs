@@ -13,11 +13,11 @@ public class QuestionsController
     private TextAsset QuestionsData;
     private int rightAnswerCounter, leftAnswerCounter;
     private VideoController VideoController;
-    string url;
+    private string videoName;
+    private string imageName;
 
     private int percent;
 
-   // public static Action<string> OnPlayVideo;
 
 
     public List<Questions> Questions 
@@ -32,39 +32,51 @@ public class QuestionsController
     }
     public int RightAnswerCounter { get => rightAnswerCounter; set => rightAnswerCounter = value; }
     public int LeftAnswerCounter { get => leftAnswerCounter; set => leftAnswerCounter = value; }
-    public string Url 
+    public string VideoName 
     {
         get
         {
             if (LeftAnswerCounter > percent)
             {
-                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.LeftVideoName);
+                videoName = GameConstants.LeftVideoName;
             }
             else if (RightAnswerCounter > percent)
             {
-                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.RightVideoName);
+                videoName = GameConstants.RightVideoName;
             }
             else
             {
-                url = System.IO.Path.Combine(Application.streamingAssetsPath, GameConstants.EqualVideoName);
+                videoName = GameConstants.EqualVideoName;
             }
-            Debug.Log(url);
-            return url;
+            return videoName;
         }
-        set => url = value; }
+        set => videoName = value; }
+
+    public string ImageName 
+    {
+        get
+        {
+            if (LeftAnswerCounter > percent)
+            {
+                imageName = GameConstants.LeftImageName;
+            }
+            else if (RightAnswerCounter > percent)
+            {
+                imageName = GameConstants.RightImageName;
+            }
+            else
+            {
+                imageName = GameConstants.EqualImageName;
+            }
+            return imageName;
+        }
+        set => imageName = value; 
+    }
 
     public QuestionsController()
     {
         GameManager.OnQuestionControllerInit += InitController;
     }
-
-    /*public QuestionsController(TextAsset questionsData, VideoController videoController, GameObject videoCanvas)
-    {
-        QuestionsData = questionsData;
-        VideoController = videoController;
-        this.videoCanvas = videoCanvas;
-        InitController();   
-    }*/
 
     private void InitController()
     {

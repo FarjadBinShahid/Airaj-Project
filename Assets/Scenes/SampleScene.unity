@@ -1131,7 +1131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &262945633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4320,7 +4320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1547724018
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5501,7 +5501,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   btn_Continue: {fileID: 1070357607}
-  view: {fileID: 733812197}
   QuestionsView: {fileID: 1858608313}
   animator: {fileID: 2078540871}
 --- !u!1 &1818097665
@@ -5666,6 +5665,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1858608314}
   - component: {fileID: 1858608315}
+  - component: {fileID: 1858608317}
+  - component: {fileID: 1858608316}
   m_Layer: 5
   m_Name: QuestionsView
   m_TagString: Untagged
@@ -5711,6 +5712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247cf295e6454554f9d4d22d53c3b08f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  afkTimeInSeconds: 300
   QuestionText: {fileID: 1420714686}
   btn_LeftAnswer: {fileID: 822655033}
   btn_RightAnswer: {fileID: 1345350120}
@@ -5722,9 +5724,48 @@ MonoBehaviour:
   Hint: {fileID: 375685207}
   QuestionNumberImage: {fileID: 14959659}
   ProcessingView: {fileID: 790917038}
+  welcomeView: {fileID: 1797535935}
   questionTextWriter: {fileID: 1420714688}
   leftAnswerTextWriter: {fileID: 960236210}
   rightAnswerTextWriter: {fileID: 1552766517}
+--- !u!114 &1858608316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858608313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1858608317
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858608313}
+  m_CullTransparentMesh: 1
 --- !u!1 &1862432445
 GameObject:
   m_ObjectHideFlags: 0
@@ -6037,6 +6078,30 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 2078540867}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 613759818}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11401234}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6

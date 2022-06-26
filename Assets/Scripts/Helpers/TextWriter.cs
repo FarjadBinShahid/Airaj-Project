@@ -25,6 +25,7 @@ public class TextWriter : MonoBehaviour
     private bool isTextDone = true;
 
     public Action OnTextComplete;
+    public Action OnTextSkip;
 
     private void FixedUpdate()
     {
@@ -82,9 +83,19 @@ public class TextWriter : MonoBehaviour
         isTextDone = false;
         if (enableAudio)
         {
-
             audioSource.Play();
         }
+    }
+
+    public void SkipAnimation(string text)
+    {
+        isTextDone = true;
+        if (enableAudio)
+        {
+            audioSource.Pause();
+        }
+        uiText.text = text;
+        OnTextSkip?.Invoke();
     }
 
 }

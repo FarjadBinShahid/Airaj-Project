@@ -9,10 +9,13 @@ using Unity.VideoHelper;
 using UnityEngine.Video;
 using System;
 using System.Linq;
+using UnityEngine.EventSystems;
 
-public class QuestionsView : MonoBehaviour
+public class QuestionsView : MonoBehaviour, IPointerDownHandler
 {
     [Header("UI Elements")]
+    [SerializeField]
+    private int afkTimeInSeconds;
     [SerializeField]
     private TMP_Text QuestionText;
     [SerializeField]
@@ -35,6 +38,8 @@ public class QuestionsView : MonoBehaviour
     private Image QuestionNumberImage;
     [SerializeField]
     private GameObject ProcessingView;
+    [SerializeField]
+    private GameObject welcomeView;
 
 
     [Header("Text Writer")]
@@ -44,6 +49,10 @@ public class QuestionsView : MonoBehaviour
     private TextWriter leftAnswerTextWriter;
     [SerializeField]
     private TextWriter rightAnswerTextWriter;
+
+
+    private IEnumerator co;
+    private bool isActive;
     private int counter;
     private List<Questions> questions;
     private Dictionary<string, Sprite> questionSprites = new Dictionary<string, Sprite>();
@@ -55,13 +64,14 @@ public class QuestionsView : MonoBehaviour
     private void Awake()
     {
         questionSprites = Resources.LoadAll(GameConstants.UIAssetFolder + GameConstants.QuestionsAssetFolder, typeof(Sprite)).Cast<Sprite>().ToDictionary(x => x.name, y => y);
-              
+
         QuestionsController = GameManager.Instance.QuestionController;
-        
+
     }
 
     private void OnEnable()
     {
+
         ResetScreen();
         AddListeners();
     }
@@ -73,20 +83,36 @@ public class QuestionsView : MonoBehaviour
 
     private void AddListeners()
     {
-        questionTextWriter.OnTextComplete += delegate 
-        { 
+        questionTextWriter.OnTextComplete += delegate
+        {
             TextCompleted(leftAnswerTextWriter, Questions[counter].LeftAnswer);
         };
-        leftAnswerTextWriter.OnTextComplete += delegate 
-        { 
-            TextCompleted(rightAnswerTextWriter, Questions[counter].RightAnswer); 
+        leftAnswerTextWriter.OnTextComplete += delegate
+        {
+            TextCompleted(rightAnswerTextWriter, Questions[counter].RightAnswer);
         };
-        rightAnswerTextWriter.OnTextComplete += delegate 
-        { 
-            btn_RightAnswer.interactable = true; 
+        rightAnswerTextWriter.OnTextComplete += delegate
+        {
+            btn_RightAnswer.interactable = true;
             btn_LeftAnswer.interactable = true;
-            btn_ResetQuestions.interactable = true; 
+            btn_ResetQuestions.interactable = true;
         };
+
+        questionTextWriter.OnTextSkip += delegate
+        {
+            TextSkip(leftAnswerTextWriter, Questions[counter].LeftAnswer);
+        };
+        leftAnswerTextWriter.OnTextSkip += delegate
+        {
+            TextSkip(rightAnswerTextWriter, Questions[counter].RightAnswer);
+        };
+        rightAnswerTextWriter.OnTextSkip += delegate
+        {
+            btn_RightAnswer.interactable = true;
+            btn_LeftAnswer.interactable = true;
+            btn_ResetQuestions.interactable = true;
+        };
+
         btn_LeftAnswer.onClick.AddListener(LeftAnswerSelected);
         btn_RightAnswer.onClick.AddListener(RightAnswerSelected);
         btn_ResetQuestions.onClick.AddListener(ResetScreen);
@@ -101,6 +127,8 @@ public class QuestionsView : MonoBehaviour
 
     private void ResetScreen()
     {
+        isActive = true;
+        co = Timer();
         counter = -1;
         Questions = QuestionsController.Questions;
         QuestionsController.LeftAnswerCounter = 0;
@@ -110,6 +138,11 @@ public class QuestionsView : MonoBehaviour
 
     private void OnDisable()
     {
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+        isActive = false;
         RemoveListeners();
     }
 
@@ -127,20 +160,28 @@ public class QuestionsView : MonoBehaviour
 
     private void NextQuestion()
     {
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+        co = Timer();
+            StartCoroutine(co);
+        
+
         LeftAnswerText.text = String.Empty;
         RightAnswerText.text = String.Empty;
         btn_LeftAnswer.interactable = false;
         btn_RightAnswer.interactable = false;
         btn_ResetQuestions.interactable = false;
         counter++;
-        if(counter >= Questions.Count)
+        if (counter >= Questions.Count)
         {
             ProcessingView.SetActive(true);
             //QuestionsController.ShowVideo();
             gameObject.SetActive(false);
             return;
         }
-        QuestionNumberImage.sprite = questionSprites[(counter+1).ToString()];
+        QuestionNumberImage.sprite = questionSprites[(counter + 1).ToString()];
         questionTextWriter.AddWriter(Questions[counter].Question);
 
         if (Questions[counter].Hint != null)
@@ -156,12 +197,43 @@ public class QuestionsView : MonoBehaviour
 
     }
 
+    private void TextSkip(TextWriter textWriter, string text)
+    {
+        textWriter.SkipAnimation(text);
+    }
     private void TextCompleted(TextWriter textWriter, string text)
     {
         textWriter.AddWriter(text);
     }
 
-    
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        questionTextWriter.SkipAnimation(Questions[counter].Question);
+    }
+
+    private IEnumerator Timer()
+    {
+        int time = 0;
+        Debug.Log("start");
+        while (time <= afkTimeInSeconds)
+        {
+            time++;
+            Debug.Log("inside co");
+            yield return new WaitForSeconds(1f);
+        }
+
+        if(time >= afkTimeInSeconds)
+        {
+            welcomeView.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        Debug.Log("END");
+        
+
+
+    }
+
+
 
     private void ShowReplayScreen(VideoPlayer source)
     {
@@ -172,11 +244,12 @@ public class QuestionsView : MonoBehaviour
     // used to generate dummy json from model
     private void GenerateJson()
     {
-        Questions q = new Questions("question", "left Answer", "Right Answer",new List<string> {"asd", "sdasd" } ,new Hint("Heading", "Text"));
+        Questions q = new Questions("question", "left Answer", "Right Answer", new List<string> { "asd", "sdasd" }, new Hint("Heading", "Text"));
         List<Questions> qs = new List<Questions>() { q, q, q };
         string json = JsonConvert.SerializeObject(qs, Formatting.Indented);
-        File.WriteAllText( Application.dataPath+"/Resources/Data/QuestionsData1.json",json);
+        File.WriteAllText(Application.dataPath + "/Resources/Data/QuestionsData1.json", json);
     }
 
-    
+
+
 }

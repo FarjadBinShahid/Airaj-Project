@@ -16,6 +16,7 @@ public class WelcomeView : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    private bool isFirstTime = true;
 
 
     private void OnEnable()
@@ -25,9 +26,10 @@ public class WelcomeView : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && isFirstTime)
         {
             animator.Play("Logo");
+            isFirstTime = false;
         }
 
     }

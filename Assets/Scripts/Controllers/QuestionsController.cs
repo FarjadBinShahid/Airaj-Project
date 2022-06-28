@@ -15,6 +15,7 @@ public class QuestionsController
     private VideoController VideoController;
     private string videoName;
     private string imageName;
+    private string colorName;
 
     private int percent;
 
@@ -71,6 +72,29 @@ public class QuestionsController
             return imageName;
         }
         set => imageName = value; 
+    }
+
+    
+
+    public string ColorName 
+    {
+        get
+        {
+            if (LeftAnswerCounter > percent)
+            {
+                colorName = "Yellow";
+            }
+            else if (RightAnswerCounter > percent)
+            {
+                colorName = "Blue";
+            }
+            else
+            {
+                colorName = "Red";
+            }
+            return colorName;
+        }
+        set => colorName = value; 
     }
 
     public QuestionsController()

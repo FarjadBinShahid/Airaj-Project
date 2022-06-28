@@ -26,7 +26,16 @@ public class GameConstants
 
     public const int VideoSceneIndex = 1;
     public const int Percent = 60;
-    public readonly Color KeywordColor = new Color(0.7137255f,1f, 0.08235294f,1f);
+    public static readonly Color KeywordColor = new Color(0.7137255f,1f, 0.08235294f,1f);
     public const string KeywordColorCode = "B6FF15";
+    public const string LeftColor = "FFEC2B";
+    public const string RightColor = "00A4FF";
+    public const string EqualColor = "FF002E";
+    public static Dictionary<string, string> colors = new Dictionary<string, string> 
+    {   
+        {"Yellow", LeftColor },
+        {"Blue", RightColor },
+        {"Red", EqualColor } 
+    };
 
 }

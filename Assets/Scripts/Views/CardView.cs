@@ -13,17 +13,30 @@ public class CardView : MonoBehaviour
     [SerializeField]
     private float restartTimeInSeconds = 10f;
 
+    IEnumerator co;
+
     private void OnEnable()
     {
         string colorName = GameManager.Instance.QuestionController.ColorName;
         string color = GameConstants.colors[colorName];
         colorText.text = "Pick <color=#" + color + ">" + colorName + "</color> card";
-        StartCoroutine(DisableView());
+        co = DisableView();
+        StartCoroutine(co);
     }
 
     IEnumerator DisableView()
     {
         yield return new WaitForSeconds(restartTimeInSeconds);
+        welcomeView.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        if(co != null)
+        {
+            StopCoroutine(co);
+        }
         welcomeView.SetActive(true);
         gameObject.SetActive(false);
     }

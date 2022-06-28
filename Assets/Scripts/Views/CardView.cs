@@ -31,7 +31,7 @@ public class CardView : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnMouseDown()
+    /*private void OnMouseDown()
     {
         if(co != null)
         {
@@ -39,7 +39,7 @@ public class CardView : MonoBehaviour
         }
         welcomeView.SetActive(true);
         gameObject.SetActive(false);
-    }
+    }*/
 
 
 }

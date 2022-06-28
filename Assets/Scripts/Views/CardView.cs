@@ -10,6 +10,8 @@ public class CardView : MonoBehaviour
     private TMP_Text colorText;
     [SerializeField]
     private GameObject welcomeView;
+    [SerializeField]
+    private float restartTimeInSeconds = 10f;
 
     private void OnEnable()
     {
@@ -21,7 +23,7 @@ public class CardView : MonoBehaviour
 
     IEnumerator DisableView()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(restartTimeInSeconds);
         welcomeView.SetActive(true);
         gameObject.SetActive(false);
     }

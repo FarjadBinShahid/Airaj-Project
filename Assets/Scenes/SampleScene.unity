@@ -2911,6 +2911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorText: {fileID: 1980365694}
   welcomeView: {fileID: 1797535935}
+  restartTimeInSeconds: 15
 --- !u!1 &1012494579
 GameObject:
   m_ObjectHideFlags: 0
